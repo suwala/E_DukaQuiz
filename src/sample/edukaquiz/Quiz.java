@@ -81,6 +81,7 @@ public abstract class Quiz {
 		
 		Quiz.dbh = new DBHelper(activity);
 		SQLiteDatabase db = Quiz.dbh.getReadableDatabase();
+		//String selection = "genre = '飯塚'";
 		Quiz.c = db.query(DBHelper.getTableName(), new String[] {"question","answer","dummy1","dummy2","dummy3","image"}, null,null,null,null,null);
 		activity.startManagingCursor(c);
 		
@@ -116,6 +117,7 @@ public abstract class Quiz {
 	
 	public void setupQuiz(Integer index){
 
+		//ImageView iv = (ImageView)activity.findViewById(R.id.image_point);
 		ImageView iv = (ImageView)activity.findViewById(R.id.image_point);
 		iv.setImageBitmap(null);
 		this.state = true;
@@ -240,8 +242,8 @@ public abstract class Quiz {
 
 	public Bitmap createPointImage(Integer point){
 		
-		View view = activity.findViewById(R.id.frameLayout);
-		view = activity.findViewById(R.id.image_point);
+		View view = activity.findViewById(R.id.Qlayout);
+		//View view = activity.findViewById(R.id.image_point);
 		
 		int width = view.getWidth();
 		int height = view.getHeight();

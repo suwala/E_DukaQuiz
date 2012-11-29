@@ -432,7 +432,7 @@ public class ResultActivity extends Activity{
 		canvas.drawBitmap(graph,(width-graph.getWidth())/2,(height-graph.getHeight())/2,null);
 		
 		Paint paint = new Paint();
-		paint.setColor(Color.argb(96,216,181 ,63));
+		paint.setColor(Color.argb(150,216,181 ,63));
 		paint.setStyle(Paint.Style.FILL);
 		
 		

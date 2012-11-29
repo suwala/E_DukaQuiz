@@ -58,7 +58,7 @@ public class MyGeoPointOverlay extends Overlay{
 				}
 
 			}else{
-				Bitmap guideBmp = BitmapFactory.decodeResource(this.stampActivity.getResources(), R.drawable.kaho);
+				Bitmap guideBmp = BitmapFactory.decodeResource(this.stampActivity.getResources(), R.drawable.meisyo1);
 				Rect src = new Rect(0,0,guideBmp.getWidth(),guideBmp.getHeight());
 				Rect dst = new Rect(20,20,canvas.getWidth()-20,mapView.getHeight()-20);
 

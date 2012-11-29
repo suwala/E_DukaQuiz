@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 		//execsql(問題,種類,ジャンル,答え,ダミー*3,imageのリソースNAME)を渡す
-		
+		/*
 		db.execSQL(execsql("日本で一番面積が小さい都道府県は？",QuizCode.FourSelected,QuizGenre.Zatsugaku,"香川県","沖縄県","群馬県","サイタマー!",null));
 		db.execSQL(execsql("X線を発見した人物は？",QuizCode.FourSelected,QuizGenre.Zatsugaku,"レントゲン","キュリー","スケルトン","ダイナマイト",null));
 		db.execSQL(execsql("甲子園球場がある都道府県は？",QuizCode.FourSelected,QuizGenre.Learning,"兵庫県","大阪府","京都府","島根県",null));
@@ -64,6 +64,22 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.execSQL(execsql("1111×4444はイクツ？", QuizCode.FourSelected, QuizGenre.Learning, "4937284", "4937283", "4937282", "4937281", null));
 		db.execSQL(execsql("お札になった人物です", QuizCode.Mosaic, QuizGenre.History, "夏目漱石", "樋口一葉", "聖徳太子", "福沢諭吉", "souseki"));
 		db.execSQL(execsql("第92代内閣総理大臣です。", QuizCode.Mosaic, QuizGenre.History, "麻生太郎", "安倍晋三", "福田康夫", "小泉純一郎", "asou"));
+		*/
+		db.execSQL(execsql("飯塚市は福岡県にありますが、福岡県の何処に位置しているでしょう？", QuizCode.FourSelected, QuizGenre.E_zuka, "中央", "東部", "北部", "西部", null));
+		db.execSQL(execsql("今の飯塚市が新市制となった年はいつでしょう？", QuizCode.FourSelected, QuizGenre.E_zuka, "2006年", "2000年", "2004年", "2005年", null));
+		db.execSQL(execsql("2012年10月における飯塚市の人口は何人？", QuizCode.FourSelected, QuizGenre.E_zuka, "13万", "8万", "11万", "18万", null));
+		db.execSQL(execsql("東京でも売られている飯塚市で生産している銘菓といえば？", QuizCode.FourSelected, QuizGenre.E_zuka, "ひよ子", "赤い恋人", "通りもん", "にわかせんべい", null));
+		db.execSQL(execsql("中国にある飯塚市の友好都市は何処でしょう？", QuizCode.FourSelected, QuizGenre.E_zuka, "西安", "安慶", "安陽", "延安", null));
+		db.execSQL(execsql("飯塚市を舞台にした大河小説といえば？", QuizCode.FourSelected, QuizGenre.E_zuka, "青春の門", "翔ぶがごとく", "王の挽歌", "悪人", null));
+		db.execSQL(execsql("飯塚市にて行われている公営競技は？", QuizCode.FourSelected, QuizGenre.E_zuka, "オートレース", "競馬", "競輪", "競艇", null));
+		db.execSQL(execsql("飯塚市が出身の歌手です", QuizCode.FourSelected, QuizGenre.E_zuka, "井上陽水","さだまさし", "桑田佳祐", "吉田拓郎", null));
+		db.execSQL(execsql("飯塚市に本店がある全国に展開するファミリーレストランです", QuizCode.FourSelected, QuizGenre.E_zuka, "ロイヤルホスト","ガスト", "デニーズ", "ジョナサン", null));
+		
+		db.execSQL(execsql("第92代内閣総理大臣です。　　　飯塚市出身でもあります", QuizCode.Mosaic, QuizGenre.History, "麻生太郎", "安倍晋三", "福田康夫", "小泉純一郎", "asou"));
+		db.execSQL(execsql("飯塚市にある登録有形文化財といえば？", QuizCode.Mosaic, QuizGenre.E_zuka, "嘉穂劇場","旧共楽館","飯塚タワー","めがね橋" ,"kaho"));
+		db.execSQL(execsql("飯塚市で売り出し中のご当地グルメといえば？", QuizCode.Mosaic, QuizGenre.E_zuka, "飯塚伝説ホルモン","飯塚伝説焼きそば","飯塚伝説ラーメン","飯塚伝説炒飯 ","horumon"));
+		
+		
 		
 		
 

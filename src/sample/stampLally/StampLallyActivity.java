@@ -37,6 +37,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
@@ -69,7 +71,7 @@ private static final float RADISU = 50;
 	private final int MOVE = 200;
 	public static GeoPoint testGP;
 	private Vibrator vibrator;
-	
+	private SeekBar seekBar;
 	
 	
     @Override
@@ -85,11 +87,21 @@ private static final float RADISU = 50;
         this.map = (MapView)this.findViewById(R.id.mapview);
         this.ctrl = map.getController();
         
-        this.destinationGP.add(new GeoPoint((int)(33.641491*1e6),(int)(130.689182*1e6)));
-        this.destinationGP.add(new GeoPoint((int)(33.644912*1e6),(int)(130.688476*1e6)));
-        this.destinationGP.add(new GeoPoint((int)(33.647413*1e6),(int)(130.689903*1e6)));
-        this.destinationGP.add(new GeoPoint((int)(33.644501*1e6),(int)(130.694001*1e6)));
-        this.destinationGP.add(new GeoPoint((int)(33.643536*1e6),(int)(130.691459*1e6)));
+        /*　嘉穂劇場33.63656,130.687172
+         * karakui時計　33.640006,130.684636
+         * 伊藤邸　33.661719,130.68624
+         * 長崎街道飯塚宿　33.638963,130.684315
+         * 白蓮歌碑　33.636297,130.688155
+         * 
+         * 
+         * */
+        
+        
+        this.destinationGP.add(new GeoPoint((int)(33.63656*1e6),(int)(130.687172*1e6)));
+        this.destinationGP.add(new GeoPoint((int)(33.640006*1e6),(int)(130.684636*1e6)));
+        this.destinationGP.add(new GeoPoint((int)(33.661719*1e6),(int)(130.68624*1e6)));
+        this.destinationGP.add(new GeoPoint((int)(33.638963*1e6),(int)(130.684315*1e6)));
+        this.destinationGP.add(new GeoPoint((int)(33.636297*1e6),(int)(130.688155*1e6)));
         
         testGP = new GeoPoint((int)(33.643536*1e6),(int)(130.691459*1e6));
         ctrl.setCenter(this.destinationGP.get(0));
@@ -171,7 +183,37 @@ private static final float RADISU = 50;
 		*/
 		
 		this.vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
+		
+		this.seekBar = (SeekBar)findViewById(R.id.seekBar1);
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+				Log.d("sb",String.valueOf(progress));
+				ctrl.setZoom(progress+19);
+				
+			}
+		});
+	
+		
+		
+		
     }
     
     public ArrayList<GeoPoint> getDestinationGP(){
@@ -244,7 +286,7 @@ private static final float RADISU = 50;
         this.locationOverlay.enableMyLocation();
         
 	}
-
+/*
 	public void mapZoom(View v){
     	int zoomLevel =	this.map.getZoomLevel();
     	zoomLevel =	this.map.getZoomLevel();
@@ -263,7 +305,7 @@ private static final float RADISU = 50;
     	TextView tv = (TextView)this.findViewById(R.id.textView1);
     	tv.setText(""+zoomLevel);
     }
-   
+  */ 
 
 	@Override
 	protected void onStop() {

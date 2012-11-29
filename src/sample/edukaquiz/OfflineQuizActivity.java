@@ -60,11 +60,18 @@ public class OfflineQuizActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question);
         
+        
+//        ImageView utv = (ImageView)findViewById(R.id.mosaic);
+//        TextView tv = (TextView)findViewById(R.id.quetion);
+        ProgressBar pb1 = (ProgressBar)findViewById(R.id.progressBar1);
+        
+        
         Quiz.resetResult();
         
         DBHelper dbh = new DBHelper(this);
         SQLiteDatabase db = dbh.getReadableDatabase();
-        String sql = "SELECT COUNT(*) from "+DBHelper.getTableName();
+        //String sql = "SELECT COUNT( * ) from " +DBHelper.getTableName()+" WHERE genre = '"+QuizGenre.E_zuka.getGenre()+"'";
+        String sql = "SELECT COUNT( * ) from " +DBHelper.getTableName();
 
         Integer total;
         //rawQueryは生のSQL文を使える　簡単！
@@ -125,7 +132,7 @@ public class OfflineQuizActivity extends Activity{
 
 			if(quizManager.isQuestion()){
 
-				Log.d("Main_progressTimer_Run","run");
+				//Log.d("Main_progressTimer_Run","run");
 				long start = quizManager.getStartTime();
 				String mondai = quizManager.getQuestion();
 				// TODO 自動生成されたメソッド・スタブ
