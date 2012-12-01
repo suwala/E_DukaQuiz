@@ -81,7 +81,7 @@ public abstract class Quiz {
 		
 		Quiz.dbh = new DBHelper(activity);
 		SQLiteDatabase db = Quiz.dbh.getReadableDatabase();
-		//String selection = "genre = '飯塚'";
+		String selection = "genre = '飯塚'";
 		Quiz.c = db.query(DBHelper.getTableName(), new String[] {"question","answer","dummy1","dummy2","dummy3","image"}, null,null,null,null,null);
 		activity.startManagingCursor(c);
 		
@@ -107,6 +107,8 @@ public abstract class Quiz {
 			this.individualSetup();
 			
 		}
+		
+		dbh.close();
 	}
 	
 	public String getColumn(int i){
@@ -130,6 +132,8 @@ public abstract class Quiz {
 		
 		TextView tv = (TextView)activity.findViewById(R.id.quetion);
 		tv.setGravity(Gravity.LEFT);
+		
+		
 			
 	}
 	
@@ -163,6 +167,7 @@ public abstract class Quiz {
 		ImageView iv = (ImageView)activity.findViewById(R.id.image_point);
 		tv.setGravity(Gravity.CENTER);
 		tv.setTextSize(30.0f);
+		
 		
 		//押したbtnのtextを取得しdbの答えと照合　合否で分岐
 		if(text.equals(answer)){
@@ -207,6 +212,7 @@ public abstract class Quiz {
 		}
 		
 		totalTime += (int) (System.currentTimeMillis() - startTime);
+		
 	}
 	
 	private void setTextType(TextView tv,String str){

@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class CreateMosaic{
 	
-	public static Bitmap mosaic_image(Bitmap image, int dot){
+	public Bitmap mosaic_image(Bitmap image, int dot){
 		
 		Bitmap b = image.copy(Bitmap.Config.ARGB_8888, true);
 

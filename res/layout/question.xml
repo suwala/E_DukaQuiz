@@ -5,15 +5,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/backgraund"
     android:orientation="vertical" >
-
+
     <LinearLayout
-        
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="15dp"
+        android:layout_weight="8"
         android:background="@drawable/bokasikaho"
         android:orientation="vertical" >
-
+
         <ProgressBar
             android:id="@+id/progressBar1"
             style="?android:attr/progressBarStyleHorizontal"
@@ -22,43 +22,49 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp" />
-
-        <LinearLayout
-            android:id="@+id/Qlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="2"
-            android:background="@drawable/question"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/quetion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginTop="30dp"
-                android:gravity="top|left"
-                android:text="Quetion"
-                android:textSize="24sp" />
 
-            <ImageView
-                android:id="@+id/image_point"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="40"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/Qlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="matrix" />
-
-            <ImageView
-                android:id="@+id/mosaic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:gravity="bottom"
-                android:scaleType="fitXY" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/question"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/quetion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="top|left"
+                    android:text="Quetion"
+                    android:textSize="24sp" />
+
+                <ImageView
+                    android:id="@+id/image_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix" />
+
+                <ImageView
+                    android:id="@+id/mosaic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="bottom"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -77,14 +83,13 @@
                 android:layout_marginRight="20dp"
                 android:gravity="bottom|right" />
         </LinearLayout>
-
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_height="151dp"
             android:background="@drawable/answerwaku"
             android:orientation="vertical" >
-
+
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -138,14 +143,4 @@
             </TableLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <!-- TextView
-        android:id="@+id/quetions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:layout_weight="10"
-        android:gravity="bottom"
-        android:text="Quetion" /-->
-
 </LinearLayout>
