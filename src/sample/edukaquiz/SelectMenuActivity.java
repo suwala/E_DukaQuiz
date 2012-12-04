@@ -1,7 +1,6 @@
 package sample.edukaquiz;
 
 import sample.postquiz.PostQuizMenuActivity;
-import sample.stampLally.StampLallyActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -64,9 +63,6 @@ public class SelectMenuActivity extends Activity{
 			Intent i = new Intent(this,PostQuizMenuActivity.class);
 			this.startActivityForResult(i,0);
 			
-		}else{
-			Intent i = new Intent(this,StampLallyActivity.class);
-			this.startActivity(i);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package sample.edukaquiz;
 
-import sample.stampLally.StampLallyActivity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;

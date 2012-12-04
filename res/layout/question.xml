@@ -4,14 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/mainLayout" >
-
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
         android:background="@drawable/backgraund"
         android:orientation="vertical" >
-
+
+
+
+
+
+
+
         <ProgressBar
             android:id="@+id/progressBar1"
             style="?android:attr/progressBarStyleHorizontal"
@@ -126,7 +132,8 @@
             </TableLayout>
         </LinearLayout>
     </LinearLayout>
-
+
+
     <!-- TextView
         android:id="@+id/quetions"
         android:layout_width="match_parent"
