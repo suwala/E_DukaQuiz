@@ -73,6 +73,7 @@ private static final float RADISU = 50;
 	private Vibrator vibrator;
 	private SeekBar seekBar;
 	
+	private Bitmap stampPlay;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -210,7 +211,6 @@ private static final float RADISU = 50;
 				
 			}
 		});
-	
 		
 		
 		
@@ -250,10 +250,22 @@ private static final float RADISU = 50;
 				if(r.contains(x.intValue(), y.intValue())){
 					ctrl.setCenter(destinationGP.get(i));
 					touchIndex = i;
-				}
-				
+				}				
 			}
-			
+			//pointX+=iv.getWidth()/3;
+			r = new Rect(pointX, pointY, pointX+iv.getWidth()/3 , pointY+iv.getHeight()/2);
+			if(r.contains(x.intValue(),y.intValue())){
+				Log.d("stamp","helpTouch");
+				new AlertDialog.Builder(StampLallyActivity.this).setView(new HelpView(StampLallyActivity.this, null))
+				.setPositiveButton("OK", new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO 自動生成されたメソッド・スタブ
+						
+					}
+				}).show();
+			}
 			/*
 			
 			for(Rect r:rectList){
@@ -370,6 +382,14 @@ private static final float RADISU = 50;
         	}
         		
         }
+        if(this.stampPlay == null){
+        	Bitmap play = BitmapFactory.decodeResource(getResources(), R.drawable.stamplay);
+        	stampPlay = Bitmap.createScaledBitmap(play, this.weight,this.height/3,true);
+        	canvas.drawBitmap(stampPlay, null, new Rect(x, y, x+this.height/3/2-30, y+this.height/3/2-30),null);
+        }
+        
+        
+        
         iv.setImageBitmap(bmp);
 	}
 

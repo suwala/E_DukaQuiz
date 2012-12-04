@@ -54,9 +54,10 @@ public final class R {
         public static final int stamphelp03=0x7f02001d;
         public static final int stamphelp04=0x7f02001e;
         public static final int stamphelp05=0x7f02001f;
-        public static final int stampoff=0x7f020020;
-        public static final int stampon=0x7f020021;
-        public static final int twitterm=0x7f020022;
+        public static final int stamplay=0x7f020020;
+        public static final int stampoff=0x7f020021;
+        public static final int stampon=0x7f020022;
+        public static final int twitterm=0x7f020023;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f0a002b;
