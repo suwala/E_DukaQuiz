@@ -1,6 +1,6 @@
 package suwala.shimizu.quiz;
 
-import sample.edukaquiz.DBHelper;
+import sample.postquiz.DBHelper;
 import suwala.shimizu.quiz.QuizManager.Genre;
 import suwala.shimizu.quiz.QuizManager.QuizCode;
 import suwala.shimizu.quizlogic.DataBaseRW;

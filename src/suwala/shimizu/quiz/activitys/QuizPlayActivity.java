@@ -1,18 +1,18 @@
 package suwala.shimizu.quiz.activitys;
 
-import sample.edukaquiz.R;
-import suwala.shimizu.quiz.QuizManager;
-import suwala.shimizu.quiz.QuizManager.Genre;
-import suwala.shimizu.quiz.QuizManager.QuizCode;
+import sample.postquiz.R;
+import suwala.shimizu.quiz.QuizController;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class QuizPlayActivity extends Activity {
 
-	private QuizManager quizManager;
+	private QuizController quizController;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,34 +20,48 @@ public class QuizPlayActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.question);
 		
-		//暫定ノージャンル クイズコード指定なし
-		quizManager = new QuizManager(this, Genre.History,QuizCode.FourSelected);
+		quizController = new QuizController(this);
 		
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		quizManager.onPause();
+		quizController.onStop();
 		if(this.isFinishing())
-			quizManager.finish();
-		
+			;
 	}
 
 	@Override
 	protected void onResume() {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onResume();
-		quizManager.onResume();
+		quizController.onStart();
 		
 		TextView tv = (TextView)findViewById(R.id.quetion);
-		Log.d("aaa",quizManager.getQuestion().toString());
-		tv.setText(quizManager.getQuestion().toString());
+		tv.setText(quizController.getQuestion().toString());
+		
+		String[] answers = quizController.getAnswers();
+		
 		
 		Button btn = (Button)findViewById(R.id.button1);
-		btn.setText(quizManager.getAnswer());
+		btn.setText(answers[0]);
+		btn = (Button)findViewById(R.id.button2);
+		btn.setText(answers[1]);
+		btn = (Button)findViewById(R.id.button3);
+		btn.setText(answers[2]);
+		btn = (Button)findViewById(R.id.button4);
+		btn.setText(answers[3]);
+		
 	}
 	
+	public void pushAnswerBtn(View v){
+		int i = quizController.setAnswer(((Button)v).getText().toString());
+		if(i == 0)
+			Toast.makeText(this, "せいかい", Toast.LENGTH_SHORT).show();
+		else if(i == 1)
+			Toast.makeText(this, "まちがい", Toast.LENGTH_SHORT).show();
+	}
 	
 
 }

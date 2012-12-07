@@ -95,7 +95,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="answer"
+                        android:onClick="pushAnswerBtn"
                         android:text="@string/a_count" />
 
                     <Button
@@ -103,7 +103,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="answer"
+                        android:onClick="pushAnswerBtn"
                         android:text="Answer2" />
                 </TableRow>
 
@@ -118,7 +118,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="answer"
+                        android:onClick="pushAnswerBtn"
                         android:text="Answer3" />
 
                     <Button
@@ -126,7 +126,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="answer"
+                        android:onClick="pushAnswerBtn"
                         android:text="Answer4" />
                 </TableRow>
             </TableLayout>

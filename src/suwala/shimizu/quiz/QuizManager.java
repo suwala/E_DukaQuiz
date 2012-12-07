@@ -20,6 +20,8 @@ public class QuizManager implements Output{
 	private long startTime;
 	private DataLoding dl;
 	private StringBuilder question  = new StringBuilder(255);
+	private String userAnswer;
+	private int time=0;
 	
 	private final int WAIT_TIME_LIMIT = 3000;
 	private final int PLAY_TIME_LIMIT = 10000;
@@ -64,13 +66,23 @@ public class QuizManager implements Output{
 		totalQ = i;
 	}
 	
+	public State getQuizManagerState(){
+		return state;
+	}
+	
 	public static class ShuffleBox{
 		public static void shuffle(Object[] o){
 			for(int i=0;i<o.length;i++){
 				int dst = (int)Math.floor(Math.random()*(i+1));
 				Object j = o[i];
+				
 				o[i] = o[dst];
+				
+				Log.d("",o[i].toString());
 				o[dst] = j;
+				
+				Log.d("",o[dst].toString());
+				
 			}
 		}
 		
@@ -102,13 +114,14 @@ public class QuizManager implements Output{
 		state = State.WAIT;
 		question = new StringBuilder(255);
 		
-		Playing playing = new Playing();
-		playing.start();
+		onResume();
 		quizWait();
 	}
 	
 	public void onResume(){
 		qState = QuizState.PLAY;
+		Playing playing = new Playing();
+		playing.start();
 	}
 	
 	public void onPause(){
@@ -122,6 +135,7 @@ public class QuizManager implements Output{
 	public synchronized void onEvents(){
 		
 		if(state == State.PLAY){
+			time = 0;
 			state = State.JUDGE;
 			quizJudge();
 			return;
@@ -134,9 +148,14 @@ public class QuizManager implements Output{
 		
 		//処理をしなければ自動進行のみ
 		if(state == State.JUDGE){
+			time = 0;
 			state = State.WAIT;
 			quizWait();
 		}
+	}
+	
+	public void setAnswer(String userAnswer){
+		this.userAnswer = userAnswer;
 	}
 	
 	private void quizWait(){
@@ -172,19 +191,26 @@ public class QuizManager implements Output{
 		public void run() {
 			while(qState != QuizState.PAUSE){
 				
-				Log.d("Thread",state.toString());
+				//Log.d("Thread",state.toString());
 				
 				if(state == QuizManager.State.PLAY)
 					if(System.currentTimeMillis() - startTime > PLAY_TIME_LIMIT)
 						quizJudge();
 				
 				if(state == QuizManager.State.JUDGE)
-					if(System.currentTimeMillis() - startTime > JUDGE_TIME_LIMIT)
+					if(time > 30*3){
 						quizWait();
+					}else{
+						time ++;
+					}
 				
 				if(state == QuizManager.State.WAIT)
-					if(System.currentTimeMillis() - startTime > WAIT_TIME_LIMIT)
+					if(time > 30*3){
 						quizPlay();
+					}else{
+						time ++;
+						Log.d("time",String.valueOf(time));
+					}
 				
 				try {
 					Thread.sleep(1000/30);
@@ -197,9 +223,9 @@ public class QuizManager implements Output{
 		
 	}
 	
-	private boolean judge(String answer) {
+	public boolean judge() {
 		
-		if(q.getAnswer().equals(answer))
+		if(q.getAnswer().equals(userAnswer))
 			return true;
 		else
 			return false;
