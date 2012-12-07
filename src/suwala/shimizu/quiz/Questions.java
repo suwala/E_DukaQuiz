@@ -1,5 +1,7 @@
 package suwala.shimizu.quiz;
 
+import android.graphics.Bitmap;
+
 public abstract class Questions {
 	
 	String q;
@@ -10,9 +12,16 @@ public abstract class Questions {
 		this.q = q;
 		this.a = a;
 		
-		setup();
 	}
 	
-	abstract void setup();
+	public String getAnswer(){
+		return a;
+	}
+	
+	public String getQuestion(){
+		return q;
+	}
 
+	public abstract Bitmap getImage();
+	public abstract String[] getDummys();
 }

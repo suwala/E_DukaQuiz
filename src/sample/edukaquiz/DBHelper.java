@@ -77,14 +77,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	}
 
-	/*
+	
 	//sql文を返すメソッド
 	private String execsql(String question,int quizcode,String genre,String answer,String dummy1,String dummy2,String dummy3,String image){
 
 		return "insert into "+tableName+" (question,quizcode,genre,answer,dummy1,dummy2,dummy3,image) values ('"+question+"','"+quizcode+"','"+genre+"','"+answer+"','"+dummy1+"', '"+dummy2+"','"+dummy3+"','"+image+"');";
 
 	}
-	*/
+	
 	
 	private String execsql(String question,QuizCode quizcode,QuizGenre genre,String answer,String dummy1,String dummy2,String dummy3,String image){
 

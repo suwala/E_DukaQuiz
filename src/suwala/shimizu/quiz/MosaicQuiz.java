@@ -4,17 +4,23 @@ import android.graphics.Bitmap;
 
 public class MosaicQuiz extends Questions{
 
-	public MosaicQuiz(String question, String answer,String[] dummy,Bitmap image) {
+	Bitmap mosaicImage;
+	String[] dummys;
+	
+	public MosaicQuiz(String question, String answer,String[] dummys,Bitmap image) {
 		super(question, answer);
-		
+		this.mosaicImage = image;
+		this.dummys = dummys;		
 	}
 
 	@Override
-	void setup() {
-		// TODO 自動生成されたメソッド・スタブ
-		
+	public Bitmap getImage() {
+		return mosaicImage;
 	}
-	
-	
+
+	@Override
+	public String[] getDummys() {
+		return dummys;
+	}
 
 }

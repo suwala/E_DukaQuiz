@@ -10,10 +10,11 @@ import android.widget.ListView;
 public class DebugListActivity extends ListActivity {
 	String edukaquiz = "sample.edukaquiz.";
 	String postquiz = "sample.postquiz.";
-	String stamp = "sample.stampLally.";
+	String quiz = "suwala.shimizu.quiz.activitys.";
 	String[] activitys = {edukaquiz+"ResultActivity",edukaquiz+"OfflineQuizActivity",edukaquiz+"ResultActivity",edukaquiz+"SelectMenuActivity",
 			postquiz+"PostQuizHistoryActivity",postquiz+"PostQuizMenuActivity",
-			postquiz+"PostQuizPlayActivity",postquiz+"PostQuizPostingActivity",stamp+"StampLallyActivity",stamp+"Testmekuri"};
+			postquiz+"PostQuizPlayActivity",postquiz+"PostQuizPostingActivity",
+			quiz +"QuizPlayActivity"};
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {

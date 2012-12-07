@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import suwala.shimizu.quiz.QuizManager.Genre;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -64,16 +66,21 @@ public class OfflineQuizActivity extends Activity{
         
         DBHelper dbh = new DBHelper(this);
         SQLiteDatabase db = dbh.getReadableDatabase();
-        String sql = "SELECT COUNT(*) from "+DBHelper.getTableName();
+        String sql = "SELECT COUNT(*) from "+DBHelper.getTableName();//+" WHERE genre = ''";
 
         Integer total;
         //rawQueryは生のSQL文を使える　簡単！
         Cursor cursor = db.rawQuery(sql,null);
-
+        
+        
+        cursor = db.query(DBHelper.getTableName(), new String[]{"genre"},"genre = '歴史'" , null, null, null, null);
         //cursorの自動クローズモード？カラムindexを元に全問題数をゲット *の場合のカラム名が不明
         this.startManagingCursor(cursor);
         //Integer index  = cursor.getColumnIndex("*");
         cursor.moveToFirst();
+        
+        Log.d("oncre総問題数",String.valueOf(cursor.getString(0)));
+        
         total = cursor.getInt(0);
 
         Log.d("oncre総問題数",String.valueOf(total));//総問題数の一致確認
@@ -125,7 +132,7 @@ public class OfflineQuizActivity extends Activity{
 
 			if(quizManager.isQuestion()){
 
-				Log.d("Main_progressTimer_Run","run");
+				//Log.d("Main_progressTimer_Run","run");
 				long start = quizManager.getStartTime();
 				String mondai = quizManager.getQuestion();
 				// TODO 自動生成されたメソッド・スタブ
