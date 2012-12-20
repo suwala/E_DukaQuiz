@@ -43,7 +43,7 @@ import android.widget.Toast;
 
 public class PostQuizPostingActivity extends Activity{
 
-	private String strUrl =  "http://wacha2.herokuapp.com/api/";;
+	private String strUrl =  "http://wacha2.herokuapp.com/api/";
 	private Map<DBColumn, String> quizMap = new HashMap<DBColumn, String>();
 	private static List<Integer> editTextList = new ArrayList<Integer>();
 	

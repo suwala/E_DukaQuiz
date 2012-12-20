@@ -30,8 +30,7 @@ public class QuizFactory {
 	public Questions createQuiz(int index,DataLoding dl){
 			
 		//indexからcodeを取得
-		//コードを元に対応するインスタンスを生成
-		
+		//コードを元に対応するインスタンスを生成		
 		
 		int code;
 		try {
@@ -42,7 +41,5 @@ public class QuizFactory {
 			e.printStackTrace();
 		}
 		return null;
-				
-		
 	}
 }

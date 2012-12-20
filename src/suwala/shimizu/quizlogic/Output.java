@@ -4,8 +4,7 @@ import android.graphics.Bitmap;
 
 public interface Output {
 	
-	public StringBuilder getQuestion();
-	public String getAnswer();
-	public String[] getDummy();
-	public Bitmap getImage();
+	public String getViewQuestion();
+	public Bitmap getViewImage();
+	public String getViewAnswers(int i);
 }

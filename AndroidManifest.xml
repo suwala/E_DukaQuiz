@@ -30,13 +30,14 @@
         
         <!-- MAPを使用するために追記 -->
         <uses-library android:name="com.google.android.maps"/>
-        <activity android:name="sample.postquiz.PostQuizHistoryActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="sample.postquiz.PostQuizMenuActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="sample.postquiz.PostQuizPlayActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="sample.postquiz.PostQuizPostingActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="sample.postquizdummy.PostQuizHistoryActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="sample.postquizdummy.PostQuizMenuActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="sample.postquizdummy.PostQuizPlayActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="sample.postquizdummy.PostQuizPostingActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="DebugListActivity"></activity>
         <activity android:name="sample.stampLally.Testmekuri"></activity>
         <activity android:name="suwala.shimizu.quiz.activitys.QuizPlayActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="suwala.shimizu.quiz.activitys.JsonTestActivity" android:screenOrientation="portrait"></activity>
         
     </application>
     

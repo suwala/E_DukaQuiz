@@ -15,6 +15,11 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 
 import sample.postquiz.R;
 
@@ -109,23 +114,37 @@ public class PostQuizPlayActivity extends Activity {
 				while((sLine = objBuf.readLine())!=null){
 					objJson.append(sLine);
 				}
-				Log.d("json",objJson.toString());
 				
-				res.toString();
+				JSONObject json = new JSONObject(objJson.toString());
+				Log.d("json",json.toString());
+				JSONArray json2 = json.getJSONArray("data");
 				
-				/*for(int i=0;i<10;i++){
-					if(this.isCancelled()){
-						break;
-					}
-					Thread.sleep(1000);
-					//2番目の引数に渡す値
-					this.publishProgress((i+1)*10);
-					
-				}*/
+				//とれたよ！
+				json = json2.getJSONObject(0);
+				Log.d("json2",json.getString("dammy2"));
+				json = json.getJSONObject("data");
+				
+				
+				JSONArray dataArray = json.getJSONArray("data");
+				
+				int count = dataArray.length();
+				
+				JSONObject[] dataObj = new JSONObject[count];
+				
+				for(int i=0;i<dataObj.length;i++){
+					Log.d("json3",dataObj[i].getString("question"));
+				}
+				
+				
+				Log.d("json4",json.getString("question"));
+				Log.d("json5",json.getString("dammy2"));
 			} catch (ClientProtocolException e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}catch (IOException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			} catch (JSONException e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
@@ -141,7 +160,7 @@ public class PostQuizPlayActivity extends Activity {
 		}
 
 		
-		//doInBackgroundが終わると呼ばれる 引数はdoInBackgroundのパラメータ
+		//doInBackgroundが終わると呼ばれる メインスレッドに直結らしい引数はdoInBackgroundのパラメータ
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO 自動生成されたメソッド・スタブ
@@ -151,7 +170,7 @@ public class PostQuizPlayActivity extends Activity {
 			
 		}
 
-		//publishProgressが呼ばれるとUIスレッド上でonProgressUpdateが呼ばれる
+		//publishProgressが呼ばれるとUIスレッド上でonProgressUpdateが呼ばれる　進歩％とか表示
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			// TODO 自動生成されたメソッド・スタブ
@@ -166,9 +185,6 @@ public class PostQuizPlayActivity extends Activity {
 			// TODO 自動生成されたメソッド・スタブ
 			this.cancel(true);
 		}
-		
-		
-		
 	}
 
 }

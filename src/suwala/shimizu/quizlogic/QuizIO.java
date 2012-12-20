@@ -5,13 +5,10 @@ public interface QuizIO {
 	//onStart,onStopはコントーラではないか
 	public void onStart();
 	public void onStop();
-	
-	public String[] getAnswers();
-	public StringBuilder getQuestion();
-	
-	public int setAnswer(String answer);
+		
+	public void onEvent(String userAnswer);
+	public void setAnswer(String answer);
 	public boolean getJudge();
 	
-	public void stepEvent();
 
 }

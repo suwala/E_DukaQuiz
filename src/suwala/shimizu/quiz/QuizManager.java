@@ -1,7 +1,5 @@
 package suwala.shimizu.quiz;
 
-import java.io.IOException;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -14,27 +12,38 @@ public class QuizManager implements Output{
 	private int[] order;
 	private int quizIndex;
 	private int totalQ = 3;
-	private State state;
-	private QuizState qState;
+	public State state;
 	private QuizFactory quizFactory;
 	private long startTime;
 	private DataLoding dl;
 	private StringBuilder question  = new StringBuilder(255);
 	private String userAnswer;
-	private int time=0;
+	private String[] answers;
+	private Bitmap viewImage;
+	private final String WAIT = "問題の準備中";
+	private final String MARU = "正解";
+	private final String BATSU = "まちがい";
+	private volatile boolean judge;
+	private final Context context;
 	
 	private final int WAIT_TIME_LIMIT = 3000;
 	private final int PLAY_TIME_LIMIT = 10000;
 	private final int JUDGE_TIME_LIMIT = 3000;
+	private final int FADE_LENGTH = 5;//QuestionViewに一秒間に表示する文字数
+	
+	/*
+	 * onEventsによってStateが変化＝次のイベントへ進む
+	 * 
+	 * waitにも同じ事が言える
+	 * 問題の読み込みが終了していなくても
+	 * 進む事が可能！
+	 * 
+	 */
 	
 	public static enum State{
-		PLAY,JUDGE,WAIT,FINISH
+		PLAY,JUDGE,WAIT,FINISH,LOAD
 	}
-	
-	public static enum QuizState{
-		PLAY,PAUSE
-	}
-	
+		
 	public static enum Genre{
 		
 		NoGenre(""),History("歴史"),Zatsugaku("雑学"),E_duka("飯塚"),Learning("学問"),GeAni("ゲーム＆アニメ"),Geography("地理");
@@ -62,27 +71,14 @@ public class QuizManager implements Output{
 		}
 	}
 	
-	public void setTotalQ(int i){
-		totalQ = i;
-	}
-	
-	public State getQuizManagerState(){
-		return state;
-	}
 	
 	public static class ShuffleBox{
 		public static void shuffle(Object[] o){
 			for(int i=0;i<o.length;i++){
 				int dst = (int)Math.floor(Math.random()*(i+1));
-				Object j = o[i];
-				
-				o[i] = o[dst];
-				
-				Log.d("",o[i].toString());
-				o[dst] = j;
-				
-				Log.d("",o[dst].toString());
-				
+				Object j = o[i];				
+				o[i] = o[dst];				
+				o[dst] = j;				
 			}
 		}
 		
@@ -99,7 +95,12 @@ public class QuizManager implements Output{
 	
 	public QuizManager(Context context,Genre genre,QuizCode code){
 		
+		//ここでデータのロード先の切り替えjson or 内部DB
+//		dl = new QuizJsonLoad(context);
 		dl = new QuizDatabaseRW(context,genre,code);
+		
+		this.context = context;
+		
 		int total = dl.getRecordCount();
 		
 		Log.d("Total",String.valueOf(total));
@@ -111,119 +112,114 @@ public class QuizManager implements Output{
 		ShuffleBox.shuffle(order);
 		quizIndex = 0;
 		quizFactory = new QuizFactory();
-		state = State.WAIT;
 		question = new StringBuilder(255);
-		
-		onResume();
-		quizWait();
+		quizLoad();
 	}
 	
-	public void onResume(){
-		qState = QuizState.PLAY;
-		Playing playing = new Playing();
-		playing.start();
+
+	public void setTotalQ(int i){
+		totalQ = i;
 	}
 	
-	public void onPause(){
-		qState = QuizState.PAUSE;
+	public State getQuizManagerState(){
+		return state;
 	}
 	
-	public void finish(){
-		qState = QuizState.PAUSE;
-	}
-	
-	public synchronized void onEvents(){
+	public synchronized void onEvents(String userAnswer){
 		
 		if(state == State.PLAY){
-			time = 0;
-			state = State.JUDGE;
+			this.userAnswer = userAnswer;
 			quizJudge();
 			return;
 		}
 		if(state == State.WAIT){
-			state = State.PLAY;
 			quizStart();
 			return;
 		}
 		
-		//処理をしなければ自動進行のみ
 		if(state == State.JUDGE){
-			time = 0;
-			state = State.WAIT;
-			quizWait();
+			quizLoad();
+			return;
 		}
 	}
 	
 	public void setAnswer(String userAnswer){
 		this.userAnswer = userAnswer;
 	}
-	
-	private void quizWait(){
-		state = State.WAIT;
+	//問題の読み込み Asyncにしたい
+	private void quizLoad(){
+		Log.d("STATE","LOAD");
+		state = State.LOAD;
 		question.delete(0, question.length());
-		q = quizFactory.createQuiz(order[quizIndex], dl);
-		question.append(q.getQuestion());
-		startTime = System.currentTimeMillis();
-		Log.d("quiz",q.getQuestion()+q.getAnswer());
-		
+		setStartTime();
+		//クイズの受け取り
+		QuizLoadAsync load = new QuizLoadAsync(context, order[quizIndex], dl);
+		load.setOnCallBack(new QuizLoadAsync.CallBackTask(){
+			@Override
+			public void CallBack(Questions Result) {
+				super.CallBack(Result);
+				
+				q = super.quizz;
+//				question.append(q.getQuestion());
+//				answers = new String[]{q.getAnswer(),q.getDummys()[0],
+//						q.getDummys()[1],q.getDummys()[2]};
+//				ShuffleBox.shuffle(answers);
+//				userAnswer = null;
+//				setStartTime();
+				quizWait();
+//				Log.d("quiz",q.getQuestion()+getViewAnswers(0)+getViewAnswers(2)+getViewAnswers(1)+getViewAnswers(3));
+			};
+		});
+		load.execute(quizFactory);
 	}
-
-	private void quizStart() {
-		
-		startTime = System.currentTimeMillis();
-		quizPlay();
-	}	
 	
+	//投稿者の表示などが行われる予定 
+	private void quizWait(){
+		Log.d("STATE","WAIT");
+		state = State.WAIT;
+		setStartTime();
+	}
+	
+	//クイズ出題中
+	private void quizStart() {
+		Log.d("STATE","PLAY");
+		question.append(q.getQuestion());
+		answers = new String[]{q.getAnswer(),q.getDummys()[0],
+				q.getDummys()[1],q.getDummys()[2]};
+		ShuffleBox.shuffle(answers);
+		userAnswer = null;
+		setStartTime();
+		state = State.PLAY;
+	}
+	
+	//時間切れかボタン押後の判定
 	private void quizJudge(){
+		Log.d("STATE","JUDGE");
+		setStartTime();
 		state = QuizManager.State.JUDGE;
-		startTime = System.currentTimeMillis();
+		judge = judge();
 		quizIndex++;
 	}
 	
-	private void quizPlay(){
-		state = QuizManager.State.PLAY;
+	private void setStartTime(){
+		this.startTime = System.currentTimeMillis();
 	}
 	
-	//メインループ
-	class Playing extends Thread{
-
-		@Override
-		public void run() {
-			while(qState != QuizState.PAUSE){
-				
-				//Log.d("Thread",state.toString());
-				
-				if(state == QuizManager.State.PLAY)
-					if(System.currentTimeMillis() - startTime > PLAY_TIME_LIMIT)
-						quizJudge();
-				
-				if(state == QuizManager.State.JUDGE)
-					if(time > 30*3){
-						quizWait();
-					}else{
-						time ++;
-					}
-				
-				if(state == QuizManager.State.WAIT)
-					if(time > 30*3){
-						quizPlay();
-					}else{
-						time ++;
-						Log.d("time",String.valueOf(time));
-					}
-				
-				try {
-					Thread.sleep(1000/30);
-				} catch (InterruptedException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-			}
-		}
-		
+	//上のクラスで呼ばれ続けている
+	public void setMillisTime(long newTime){
+		long time = newTime-startTime;
+		if(state == State.PLAY){
+			if(time > PLAY_TIME_LIMIT)
+				onEvents(null);
+		}else if(state == State.JUDGE){
+			if(time > JUDGE_TIME_LIMIT)
+				onEvents(null);
+		}else if(state == State.WAIT)
+			if(time > WAIT_TIME_LIMIT)
+				onEvents(null);
 	}
 	
-	public boolean judge() {
+	private boolean judge() {
 		
 		if(q.getAnswer().equals(userAnswer))
 			return true;
@@ -231,34 +227,44 @@ public class QuizManager implements Output{
 			return false;
 	}
 
-	public long getElapsedTime(){
-		return System.currentTimeMillis() - startTime;
-	}
-
 	@Override
-	public StringBuilder getQuestion() {
+	public String getViewQuestion() {	
 		
-		return question;
+		if(state == State.PLAY){
+			int time = (int)(System.currentTimeMillis() -startTime);
+			if(time*FADE_LENGTH/1000 < question.length())
+				return question.substring(0, 1+time*FADE_LENGTH/1000);
+			else
+				return question.toString();
+		}
+		if(state == State.WAIT)
+			return WAIT;
+		if(state == State.JUDGE)
+			if(judge)
+				return MARU;
+			else
+				return BATSU;
+		
+		return null;
+		
 	}
-
 
 	@Override
-	public String getAnswer() {
-		return q.getAnswer();
+	public Bitmap getViewImage() {
+		if(state == State.PLAY)
+			viewImage = q.getImage();
+		return viewImage;
 	}
-
+	
 
 	@Override
-	public Bitmap getImage() {
-		return q.getImage();
-	}
-
-
-	@Override
-	public String[] getDummy() {
-		return q.getDummys();
-	}
-
+	public String getViewAnswers(int i){
+		if(state == State.PLAY)
+			return answers[i];
+		return null;
+	}	
+	
+	
 
 
 }

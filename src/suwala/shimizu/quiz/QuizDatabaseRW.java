@@ -23,8 +23,7 @@ public class QuizDatabaseRW implements DataBaseRW{
 		else if (genre != Genre.NoGenre)
 			filter=" WHERE genre='"+genre.getGenre()+"'";
 		else if(quizCode != null)
-			filter=" WHERE quizcode="+quizCode.getQuizCode();
-		
+			filter=" WHERE quizcode="+quizCode.getQuizCode();		
 	}
 	
 	@Override
