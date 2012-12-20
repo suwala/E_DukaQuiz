@@ -11,8 +11,9 @@ public final class R {
     public static final class anim {
         public static final int left_in=0x7f040000;
         public static final int left_out=0x7f040001;
-        public static final int right_in=0x7f040002;
-        public static final int right_out=0x7f040003;
+        public static final int progressanime=0x7f040002;
+        public static final int right_in=0x7f040003;
+        public static final int right_out=0x7f040004;
     }
     public static final class attr {
     }
@@ -46,18 +47,20 @@ public final class R {
         public static final int quizresult2=0x7f020015;
         public static final int quizresult3=0x7f020016;
         public static final int sample1=0x7f020017;
-        public static final int souseki=0x7f020018;
-        public static final int stamp2=0x7f020019;
-        public static final int stampfream=0x7f02001a;
-        public static final int stamphelp01=0x7f02001b;
-        public static final int stamphelp02=0x7f02001c;
-        public static final int stamphelp03=0x7f02001d;
-        public static final int stamphelp04=0x7f02001e;
-        public static final int stamphelp05=0x7f02001f;
-        public static final int stamplay=0x7f020020;
-        public static final int stampoff=0x7f020021;
-        public static final int stampon=0x7f020022;
-        public static final int twitterm=0x7f020023;
+        public static final int signal=0x7f020018;
+        public static final int signalframe=0x7f020019;
+        public static final int souseki=0x7f02001a;
+        public static final int stamp2=0x7f02001b;
+        public static final int stampfream=0x7f02001c;
+        public static final int stamphelp01=0x7f02001d;
+        public static final int stamphelp02=0x7f02001e;
+        public static final int stamphelp03=0x7f02001f;
+        public static final int stamphelp04=0x7f020020;
+        public static final int stamphelp05=0x7f020021;
+        public static final int stamplay=0x7f020022;
+        public static final int stampoff=0x7f020023;
+        public static final int stampon=0x7f020024;
+        public static final int twitterm=0x7f020025;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f0a002b;

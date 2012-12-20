@@ -110,6 +110,13 @@ public class OfflineQuizActivity extends Activity{
 	protected void onResume() {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onResume();
+		
+		ProgressBar pb = (ProgressBar)findViewById(R.id.progressBar1);
+		if(pb != null){
+			pb.setProgressDrawable(getResources().getDrawable(R.anim.progressanime));
+			pb.layout(pb.getLeft()-1, pb.getTop(), pb.getRight(), pb.getBottom());
+			pb.layout(pb.getLeft()+1, pb.getTop(), pb.getRight(), pb.getBottom());
+		}
 		this.pbHandler.postDelayed(progressTimer, 100);
 		this.quizManager.start();
 		
@@ -152,7 +159,7 @@ public class OfflineQuizActivity extends Activity{
 				tv.setText(mondai.subSequence(0, length));
 
 				ProgressBar pb = (ProgressBar)findViewById(R.id.progressBar1);
-				pb.setProgress((int)(System.currentTimeMillis()-start));
+				pb.setProgress((int)((System.currentTimeMillis()-start)/1000*1000));
 				//時間切れ
 				if((int)(System.currentTimeMillis()-start) > 10000){
 					deletePbHandler.post(progressDelete);

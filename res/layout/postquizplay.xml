@@ -3,7 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,7 +39,8 @@
                 android:text="@string/postQuestion"
                 android:textSize="16sp" />
         </LinearLayout>
-
+
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +87,8 @@
                     android:text="Button" />
             </TableRow>
         </TableLayout>
-
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
