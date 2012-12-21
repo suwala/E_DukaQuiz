@@ -30,7 +30,7 @@ public class OfflineQuizActivity extends Activity{
 
 	
     public Integer q_Index=0;    //現在が難問目かの保持
-    public final Integer totalQuestions = 3; //出題数
+    public final static Integer totalQuestions = 3; //出題数
     public  Integer[] order;//DBのIndex準拠にした問題の出題順
 
     
@@ -45,6 +45,10 @@ public class OfflineQuizActivity extends Activity{
     private Handler nextDelete = new Handler();
     private final int PBTime = 10000;//ProgressBarの設定タイム    
     
+    public static Integer getToatlQ(){
+    	return totalQuestions;
+    }
+    
 	private static Map<Integer, Quiz> quizType = new HashMap<Integer, Quiz>();
     static{
     	OfflineQuizActivity.quizType.put(QuizCode.FourSelected.getCode(), new QuizFour());
@@ -56,11 +60,18 @@ public class OfflineQuizActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question);
         
+        
+//        ImageView utv = (ImageView)findViewById(R.id.mosaic);
+//        TextView tv = (TextView)findViewById(R.id.quetion);
+        ProgressBar pb1 = (ProgressBar)findViewById(R.id.progressBar1);
+        
+        
         Quiz.resetResult();
         
         DBHelper dbh = new DBHelper(this);
         SQLiteDatabase db = dbh.getReadableDatabase();
-        String sql = "SELECT COUNT(*) from "+DBHelper.getTableName();
+        //String sql = "SELECT COUNT( * ) from " +DBHelper.getTableName()+" WHERE genre = '"+QuizGenre.E_zuka.getGenre()+"'";
+        String sql = "SELECT COUNT( * ) from " +DBHelper.getTableName();
 
         Integer total;
         //rawQueryは生のSQL文を使える　簡単！
@@ -84,8 +95,7 @@ public class OfflineQuizActivity extends Activity{
 		//配列をシャッフルする
 		BoxShuffle.shuffle(this.order);		        
         
-        //モザイク問題を先頭へ
-        this.order[0] = 6;this.order[1] = 16;
+        //モザイク問題を先頭へthis.order[0] = 6;this.order[1] = 16;
     
 
         //経過時間の設定　現在MAX10秒
@@ -100,6 +110,13 @@ public class OfflineQuizActivity extends Activity{
 	protected void onResume() {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onResume();
+		
+		ProgressBar pb = (ProgressBar)findViewById(R.id.progressBar1);
+		if(pb != null){
+			pb.setProgressDrawable(getResources().getDrawable(R.anim.progressanime));
+			pb.layout(pb.getLeft()-1, pb.getTop(), pb.getRight(), pb.getBottom());
+			pb.layout(pb.getLeft()+1, pb.getTop(), pb.getRight(), pb.getBottom());
+		}
 		this.pbHandler.postDelayed(progressTimer, 100);
 		this.quizManager.start();
 		
@@ -122,7 +139,7 @@ public class OfflineQuizActivity extends Activity{
 
 			if(quizManager.isQuestion()){
 
-				Log.d("Main_progressTimer_Run","run");
+				//Log.d("Main_progressTimer_Run","run");
 				long start = quizManager.getStartTime();
 				String mondai = quizManager.getQuestion();
 				// TODO 自動生成されたメソッド・スタブ
@@ -142,7 +159,7 @@ public class OfflineQuizActivity extends Activity{
 				tv.setText(mondai.subSequence(0, length));
 
 				ProgressBar pb = (ProgressBar)findViewById(R.id.progressBar1);
-				pb.setProgress((int)(System.currentTimeMillis()-start));
+				pb.setProgress((int)((System.currentTimeMillis()-start)/1000*1000));
 				//時間切れ
 				if((int)(System.currentTimeMillis()-start) > 10000){
 					deletePbHandler.post(progressDelete);
@@ -201,7 +218,7 @@ public class OfflineQuizActivity extends Activity{
 	//order[現在の問題数]に基づいて問題を取得　答えのみanswerに格納
 	 public void question(){
 
-		 if(this.q_Index < this.totalQuestions){
+		 if(this.q_Index < totalQuestions){
 			 
 			 DBHelper dbh = new DBHelper(this);
 			 SQLiteDatabase db = dbh.getReadableDatabase();

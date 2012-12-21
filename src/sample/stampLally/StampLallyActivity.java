@@ -15,8 +15,12 @@ import com.google.android.maps.MyLocationOverlay;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,6 +37,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
@@ -64,8 +70,10 @@ private static final float RADISU = 50;
 	//カーソルで移動する距離
 	private final int MOVE = 200;
 	public static GeoPoint testGP;
+	private Vibrator vibrator;
+	private SeekBar seekBar;
 	
-	
+	private Bitmap stampPlay;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,15 +88,25 @@ private static final float RADISU = 50;
         this.map = (MapView)this.findViewById(R.id.mapview);
         this.ctrl = map.getController();
         
-        this.destinationGP.add(new GeoPoint((int)(33.641491*1e6),(int)(130.689182*1e6)));
-        this.destinationGP.add(new GeoPoint((int)(33.644912*1e6),(int)(130.688476*1e6)));
-        this.destinationGP.add(new GeoPoint((int)(33.647413*1e6),(int)(130.689903*1e6)));
-        this.destinationGP.add(new GeoPoint((int)(33.644501*1e6),(int)(130.694001*1e6)));
-        this.destinationGP.add(new GeoPoint((int)(33.643536*1e6),(int)(130.691459*1e6)));
+        /*　嘉穂劇場33.63656,130.687172
+         * karakui時計　33.640006,130.684636
+         * 伊藤邸　33.661719,130.68624
+         * 長崎街道飯塚宿　33.638963,130.684315
+         * 白蓮歌碑　33.636297,130.688155
+         * 
+         * 
+         * */
+        
+        
+        this.destinationGP.add(new GeoPoint((int)(33.63656*1e6),(int)(130.687172*1e6)));
+        this.destinationGP.add(new GeoPoint((int)(33.640006*1e6),(int)(130.684636*1e6)));
+        this.destinationGP.add(new GeoPoint((int)(33.661719*1e6),(int)(130.68624*1e6)));
+        this.destinationGP.add(new GeoPoint((int)(33.638963*1e6),(int)(130.684315*1e6)));
+        this.destinationGP.add(new GeoPoint((int)(33.636297*1e6),(int)(130.688155*1e6)));
         
         testGP = new GeoPoint((int)(33.643536*1e6),(int)(130.691459*1e6));
         ctrl.setCenter(this.destinationGP.get(0));
-        ctrl.setZoom(18);
+        ctrl.setZoom(19);
         /*
         this.iconDraws.put(true, new Icon(this,this.map));
 		this.iconDraws.put(false, new BallonIcon(this, this.map));
@@ -134,6 +152,20 @@ private static final float RADISU = 50;
 		
 		this.drawStamp();
 		
+		//viewのサイズが大きいと溢れる模様  VireFlipperをweight=10 CheckBoxをweight=1にすることで対応
+		
+		prefs = getSharedPreferences("E_DUKA", MODE_PRIVATE);
+		if(prefs.getBoolean("stampHelp", true))
+			new AlertDialog.Builder(this).setView(new HelpView(this, null))
+			.setPositiveButton("OK", new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO 自動生成されたメソッド・スタブ
+					
+				}
+			}).show();
+		
 		/*	onCreではViewが描画されていないので取得できない（0になる）
 		ImageView iv = (ImageView)this.findViewById(R.id.stampView1);
 		int x=iv.getLeft();int y=iv.getTop();
@@ -150,7 +182,38 @@ private static final float RADISU = 50;
 			this.rectList.add(new Rect(x+iv.getWidth()*i,y,x+iv.getWidth()*(i+1),y+iv.getHeight()));
 		}
 		*/
-
+		
+		this.vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		
+		this.seekBar = (SeekBar)findViewById(R.id.seekBar1);
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+				Log.d("sb",String.valueOf(progress));
+				ctrl.setZoom(progress+19);
+				
+			}
+		});
+		
+		
+		
     }
     
     public ArrayList<GeoPoint> getDestinationGP(){
@@ -160,12 +223,7 @@ private static final float RADISU = 50;
     @Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		// TODO 自動生成されたメソッド・スタブ
-		super.onWindowFocusChanged(hasFocus);
-		
-		
-		
-		
-	
+		super.onWindowFocusChanged(hasFocus);	
 	}
     
     public class ImageViewOnClick implements OnTouchListener{
@@ -192,10 +250,22 @@ private static final float RADISU = 50;
 				if(r.contains(x.intValue(), y.intValue())){
 					ctrl.setCenter(destinationGP.get(i));
 					touchIndex = i;
-				}
-				
+				}				
 			}
-			
+			//pointX+=iv.getWidth()/3;
+			r = new Rect(pointX, pointY, pointX+iv.getWidth()/3 , pointY+iv.getHeight()/2);
+			if(r.contains(x.intValue(),y.intValue())){
+				Log.d("stamp","helpTouch");
+				new AlertDialog.Builder(StampLallyActivity.this).setView(new HelpView(StampLallyActivity.this, null))
+				.setPositiveButton("OK", new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO 自動生成されたメソッド・スタブ
+						
+					}
+				}).show();
+			}
 			/*
 			
 			for(Rect r:rectList){
@@ -228,7 +298,7 @@ private static final float RADISU = 50;
         this.locationOverlay.enableMyLocation();
         
 	}
-
+/*
 	public void mapZoom(View v){
     	int zoomLevel =	this.map.getZoomLevel();
     	zoomLevel =	this.map.getZoomLevel();
@@ -247,7 +317,7 @@ private static final float RADISU = 50;
     	TextView tv = (TextView)this.findViewById(R.id.textView1);
     	tv.setText(""+zoomLevel);
     }
-   
+  */ 
 
 	@Override
 	protected void onStop() {
@@ -312,6 +382,14 @@ private static final float RADISU = 50;
         	}
         		
         }
+        if(this.stampPlay == null){
+        	Bitmap play = BitmapFactory.decodeResource(getResources(), R.drawable.stamplay);
+        	stampPlay = Bitmap.createScaledBitmap(play, this.weight,this.height/3,true);
+        	canvas.drawBitmap(stampPlay, null, new Rect(x, y, x+this.height/3/2-30, y+this.height/3/2-30),null);
+        }
+        
+        
+        
         iv.setImageBitmap(bmp);
 	}
 
@@ -393,11 +471,19 @@ private static final float RADISU = 50;
 					Log.d("MyOver","円の中にいます");
 					Toast.makeText(this, "スタンプを取得しました", Toast.LENGTH_SHORT).show();
 					this.setStamp(i);
+					
+					if(readVibPref())
+						vibrator.vibrate(1000);
 					return true;
 				}				
 			}
 		}
 		return false;
+	}
+	
+	private boolean readVibPref(){
+		SharedPreferences pref = getSharedPreferences("E_DUKA", MODE_PRIVATE);
+		return pref.getBoolean("vibrate", true);
 	}
 	
 	public Boolean inMap(){

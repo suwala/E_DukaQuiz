@@ -5,87 +5,70 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/zoomin"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="拡大" 
-            android:onClick="mapZoom"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/zoomout"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="縮小"
-            android:onClick="mapZoom"
-            android:layout_weight="1"/>
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" 
-            android:layout_weight="1"/>
 
-        <Button
-            android:id="@+id/button1"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MyGP" 
-            android:onClick="myGp"/>
 
-        <Button
-            android:id="@+id/btntop"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="↑" 
-            android:layout_weight="1"
-            android:onClick="arrow"/>
 
-        <Button
-            android:id="@+id/btnbottom"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="↓"
-            android:layout_weight="1"
-            android:onClick="arrow" />
 
-        <Button
-            android:id="@+id/btnrigth"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="→" 
-            android:layout_weight="1"
-            android:onClick="arrow"/>
-        
-        <Button
-            android:id="@+id/btnleft"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="←" 
-            android:layout_weight="1"
-            android:onClick="arrow"/>
 
-    </LinearLayout>
-
+
+
+
+
     <ImageView
         android:id="@+id/stampView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/stampfream" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+
+
+        <SeekBar
+            android:id="@+id/seekBar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:max="3" />
+
+        <Button
+            android:id="@+id/btntop"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="arrow"
+            android:text="↑" />
+
+        <Button
+            android:id="@+id/btnbottom"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="arrow"
+            android:text="↓" />
+
+        <Button
+            android:id="@+id/btnrigth"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="arrow"
+            android:text="→" />
+
+        <Button
+            android:id="@+id/btnleft"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="arrow"
+            android:text="←" />
+    </LinearLayout>
     
     <com.google.android.maps.MapView
         android:id="@+id/mapview"
@@ -93,7 +76,9 @@
         android:layout_height="fill_parent"
         android:enabled="true"
         android:clickable="false"
-        android:apiKey="0gQIw8VysdzYTMbMyoitC-iJ6bNvqOcqMFFsaMQ"
+        android:apiKey="0gQIw8VysdzaU32LY95JqTbDII0Zurc4-ORYr5w"
         />
+    
+    <!-- HOME:0gQIw8VysdzaU32LY95JqTbDII0Zurc4-ORYr5w DHW:0gQIw8VysdzYTMbMyoitC-iJ6bNvqOcqMFFsaMQ-->
 
 </LinearLayout>
