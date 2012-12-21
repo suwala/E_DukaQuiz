@@ -107,7 +107,6 @@ public class PostQuizPostingActivity extends Activity{
 			
 			EditText et;
 			this.quizMap.put(DBColumn.mode, "post");
-			this.quizMap.put(DBColumn.statusCode, "01");
 			this.quizMap.put(DBColumn.userName, PostQuizMenuActivity.getUserName());
 			this.quizMap.put(DBColumn.userKey, PostQuizMenuActivity.getUUID().toString());
 			
